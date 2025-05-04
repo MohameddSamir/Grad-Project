@@ -1,4 +1,4 @@
-package com.favtour.travel.security.model;
+package com.favtour.travel.security.auth.model;
 
 import com.favtour.travel.user.entity.Users;
 import lombok.Getter;

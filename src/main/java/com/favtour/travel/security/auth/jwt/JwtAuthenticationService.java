@@ -1,8 +1,8 @@
-package com.favtour.travel.security.jwt;
+package com.favtour.travel.security.auth.jwt;
 
-import com.favtour.travel.security.model.UserPrincipal;
-import com.favtour.travel.security.payload.JwtResponse;
-import com.favtour.travel.security.payload.LoginRequest;
+import com.favtour.travel.security.auth.payload.LoginRequest;
+import com.favtour.travel.security.auth.model.UserPrincipal;
+import com.favtour.travel.security.auth.payload.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

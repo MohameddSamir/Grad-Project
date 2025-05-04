@@ -1,7 +1,7 @@
 package com.favtour.travel.security.config;
 
-import com.favtour.travel.security.jwt.JwtAuthenticationFilter;
-import com.favtour.travel.security.service.CustomUserDetailsService;
+import com.favtour.travel.security.auth.jwt.JwtAuthenticationFilter;
+import com.favtour.travel.security.auth.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf->csrf.disable())
-                .authorizeHttpRequests(req->req.requestMatchers("/favtour/login","/favtour/register").permitAll()
+                .authorizeHttpRequests(req->req.requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

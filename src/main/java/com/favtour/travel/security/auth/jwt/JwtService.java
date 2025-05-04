@@ -1,4 +1,4 @@
-package com.favtour.travel.security.jwt;
+package com.favtour.travel.security.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

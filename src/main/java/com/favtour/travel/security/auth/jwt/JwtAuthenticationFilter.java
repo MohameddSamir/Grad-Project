@@ -1,7 +1,7 @@
-package com.favtour.travel.security.jwt;
+package com.favtour.travel.security.auth.jwt;
 
-import com.favtour.travel.security.model.UserPrincipal;
-import com.favtour.travel.security.service.CustomUserDetailsService;
+import com.favtour.travel.security.auth.model.UserPrincipal;
+import com.favtour.travel.security.auth.service.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

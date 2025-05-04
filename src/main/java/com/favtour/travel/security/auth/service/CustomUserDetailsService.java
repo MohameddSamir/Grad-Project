@@ -1,9 +1,9 @@
-package com.favtour.travel.security.service;
+package com.favtour.travel.security.auth.service;
 
 import com.favtour.travel.user.entity.Users;
-import com.favtour.travel.user.exception.UserNotFoundException;
 import com.favtour.travel.user.repository.UsersRepository;
-import com.favtour.travel.security.model.UserPrincipal;
+import com.favtour.travel.user.exception.UserNotFoundException;
+import com.favtour.travel.security.auth.model.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

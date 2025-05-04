@@ -1,4 +1,4 @@
-package com.favtour.travel.security.payload;
+package com.favtour.travel.security.auth.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

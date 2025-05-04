@@ -1,11 +1,11 @@
 package com.favtour.travel.user.service;
 
 import com.favtour.travel.user.dto.UserCreateDto;
+import com.favtour.travel.user.exception.DuplicateEmailException;
 import com.favtour.travel.user.dto.UserDto;
 import com.favtour.travel.user.dto.UserMapper;
 import com.favtour.travel.user.entity.Users;
 import com.favtour.travel.user.entity.UsersProfile;
-import com.favtour.travel.user.exception.DuplicateEmailException;
 import com.favtour.travel.user.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,10 +26,10 @@ public class UsersService {
         Users users= new Users();
         users.setEmail(userCreateDto.getEmail());
         users.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
-        users.setRole("USER");
+        users.setRole("ROLE_USER");
         users.setActive(true);
 
-        UsersProfile usersProfile= new UsersProfile(users);
+        UsersProfile usersProfile= new UsersProfile();
         usersProfile.setFirstName(userCreateDto.getFirstName());
         usersProfile.setLastName(userCreateDto.getLastName());
         usersProfile.setPhone(userCreateDto.getPhone());
