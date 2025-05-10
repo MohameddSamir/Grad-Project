@@ -16,7 +16,7 @@ public class TripMapper {
 
         return Trip.builder()
                 .label(tripRequest.getLabel())
-                .destination(destinationService.getDestinationByName(tripRequest.getLocation()))
+                .destination(destinationService.getDestinationByName(tripRequest.getDestination()))
                 .run(tripRequest.getRun())
                 .duration(tripRequest.getDuration())
                 .tripType(tripRequest.getTripType())

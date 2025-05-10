@@ -9,7 +9,7 @@ import lombok.Setter;
 public class TripRequest {
 
     private String label;
-    private String location;
+    private String destination;
     private String run;
     private String duration;
     private TripType tripType;
