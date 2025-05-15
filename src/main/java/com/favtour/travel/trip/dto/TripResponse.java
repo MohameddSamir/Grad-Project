@@ -1,5 +1,6 @@
 package com.favtour.travel.trip.dto;
 
+import com.favtour.travel.trip.entity.Inclusion;
 import com.favtour.travel.trip.entity.TripType;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class TripResponse {
     private int price;
     private String itinerary;
     private String description;
+    private List<Inclusion> inclusions;
     private String meetingPoint;
     private String cancellationPolicy;
     private List<String> tripImages;

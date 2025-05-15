@@ -23,6 +23,7 @@ public class TripMapper {
                 .price(tripRequest.getPrice())
                 .itinerary(tripRequest.getItinerary())
                 .description(tripRequest.getDescription())
+                .inclusions(tripRequest.getInclusions())
                 .meetingPoint(tripRequest.getMeetingPoint())
                 .cancellationPolicy(tripRequest.getCancellationPolicy())
                 .build();
@@ -41,6 +42,7 @@ public class TripMapper {
                 .price(trip.getPrice())
                 .itinerary(trip.getItinerary())
                 .description(trip.getDescription())
+                .inclusions(trip.getInclusions())
                 .meetingPoint(trip.getMeetingPoint())
                 .tripImages(trip.getTripImages().stream().map(TripImages::getImageUrl).toList())
                 .build();

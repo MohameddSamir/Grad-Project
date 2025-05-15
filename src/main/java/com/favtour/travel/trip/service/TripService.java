@@ -7,6 +7,7 @@ import com.favtour.travel.shared.FileStorageException;
 import com.favtour.travel.trip.dto.TripRequest;
 import com.favtour.travel.trip.dto.TripMapper;
 import com.favtour.travel.trip.dto.TripResponse;
+import com.favtour.travel.trip.entity.Inclusion;
 import com.favtour.travel.trip.entity.Trip;
 import com.favtour.travel.trip.entity.TripImages;
 import com.favtour.travel.trip.repository.TripRepository;
@@ -58,10 +59,17 @@ public class TripService {
             throw new IllegalArgumentException("You must add one image at least");
         }
 
+        if(tripRequest.getInclusions() == null || tripRequest.getInclusions().isEmpty()){
+            throw new IllegalArgumentException("You must add one inclusion at least");
+        }
+
         Trip savedTrip= tripMapper.mapTripRequestToTrip(tripRequest);
         savedTrip.setTripImages(new ArrayList<>());
+        savedTrip.setInclusions(new ArrayList<>());
 
         tripRepository.save(savedTrip);
+
+        addInclusions(savedTrip, tripRequest.getInclusions());
 
         addCoverImage(savedTrip, coverImage);
 
@@ -78,6 +86,10 @@ public class TripService {
 
         if(coverImage != null){
             addCoverImage(trip, coverImage);
+        }
+
+        if(updatedTripRequest.getInclusions() != null){
+            addInclusions(trip, updatedTripRequest.getInclusions());
         }
 
         if(newImages != null){
@@ -132,8 +144,8 @@ public class TripService {
         if(updateTripRequest.getLabel() != null){
             trip.setLabel(updateTripRequest.getLabel());
         }
-        if(updateTripRequest.getLocation() != null){
-            trip.setDestination(destinationService.getDestinationByName(updateTripRequest.getLocation()));
+        if(updateTripRequest.getDestination() != null){
+            trip.setDestination(destinationService.getDestinationByName(updateTripRequest.getDestination()));
         }
         if(updateTripRequest.getDuration() != null){
             trip.setDuration(updateTripRequest.getDuration());
@@ -150,6 +162,9 @@ public class TripService {
         if(updateTripRequest.getDescription() != null){
             trip.setDescription(updateTripRequest.getDescription());
         }
+        if(updateTripRequest.getInclusions() != null){
+            trip.setInclusions(updateTripRequest.getInclusions());
+        }
         if(updateTripRequest.getMeetingPoint() != null){
             trip.setMeetingPoint(updateTripRequest.getMeetingPoint());
         }
@@ -162,6 +177,13 @@ public class TripService {
         if(image.isEmpty()){
             throw new IllegalArgumentException("This image File is empty "+image.getOriginalFilename());
         }
+    }
+
+    private void addInclusions(Trip trip, List<Inclusion> inclusions) {
+        for (Inclusion inclusion : inclusions) {
+            inclusion.setTrip(trip);
+        }
+        trip.setInclusions(inclusions);
     }
 
 }

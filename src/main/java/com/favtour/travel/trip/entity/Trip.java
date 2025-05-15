@@ -44,7 +44,10 @@ public class Trip {
     private String cancellationPolicy;
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
-    private List<TripImages> tripImages = new ArrayList<>();
+    private List<TripImages> tripImages;
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private List<Inclusion> inclusions;
 
     public void addTripImage(TripImages tripImage){
         tripImage.setTrip(this);
