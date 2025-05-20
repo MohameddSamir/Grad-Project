@@ -2,6 +2,8 @@ package com.favtour.travel.destination.controller;
 
 import com.favtour.travel.core.payload.ApiResponse;
 import com.favtour.travel.destination.dto.DestinationCardDto;
+import com.favtour.travel.destination.dto.DestinationRequest;
+import com.favtour.travel.destination.dto.DestinationResponse;
 import com.favtour.travel.destination.dto.DestinationWithTrips;
 import com.favtour.travel.destination.entity.Destination;
 import com.favtour.travel.destination.service.DestinationService;
@@ -39,17 +41,17 @@ public class DestinationController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Destination>> addDestination(@RequestPart Destination destination,
-                                                                   @RequestPart("cover_photo") MultipartFile coverPhoto,
-                                                                   @RequestPart("map_photo") MultipartFile mapPhoto) {
+    public ResponseEntity<ApiResponse<DestinationResponse>> addDestination(@RequestPart DestinationRequest destinationRequest,
+                                                                           @RequestPart("cover_photo") MultipartFile coverPhoto,
+                                                                           @RequestPart("map_photo") MultipartFile mapPhoto) {
 
         return ResponseEntity.ok
                 (new ApiResponse<>(true, "Destination has been saved successfully",
-                        destinationService.createDestination(destination,coverPhoto,mapPhoto)));
+                        destinationService.createDestination(destinationRequest,coverPhoto,mapPhoto)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Destination>> updateDestination(@PathVariable int id,
+    public ResponseEntity<ApiResponse<DestinationResponse>> updateDestination(@PathVariable int id,
                                                                       @RequestPart Destination destination,
                                                                       @RequestPart(name = "cover_photo", required = false) MultipartFile coverPhoto,
                                                                       @RequestPart(name = "map_photo", required = false) MultipartFile mapPhoto) {

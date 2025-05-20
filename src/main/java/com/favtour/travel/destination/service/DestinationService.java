@@ -2,9 +2,11 @@ package com.favtour.travel.destination.service;
 
 import com.favtour.travel.core.util.FileStorageService;
 import com.favtour.travel.destination.dto.DestinationCardDto;
+import com.favtour.travel.destination.dto.DestinationRequest;
+import com.favtour.travel.destination.dto.DestinationResponse;
 import com.favtour.travel.destination.dto.DestinationWithTrips;
 import com.favtour.travel.destination.entity.Destination;
-import com.favtour.travel.destination.entity.DestinationActivity;
+import com.favtour.travel.destination.mapper.DestinationMapper;
 import com.favtour.travel.destination.repository.DestinationRepository;
 import com.favtour.travel.shared.EntityNotFoundException;
 import com.favtour.travel.shared.FileStorageException;
@@ -22,10 +24,8 @@ public class DestinationService {
 
     private final DestinationRepository destinationRepository;
     private final FileStorageService fileStorageService;
+    private final DestinationMapper destinationMapper;
 
-    public List<Destination> getAllDestinations() {
-        return destinationRepository.findAll();
-    }
 
     public List<DestinationCardDto> getAllDestinationCards() {
         return destinationRepository.findAll().stream().map(destination ->
@@ -49,22 +49,18 @@ public class DestinationService {
     }
 
     @Transactional
-    public Destination createDestination(Destination destination, MultipartFile coverPhoto, MultipartFile mapPhoto) {
+    public DestinationResponse createDestination(DestinationRequest destinationRequest, MultipartFile coverPhoto, MultipartFile mapPhoto) {
 
-        validateArguments(destination, coverPhoto, mapPhoto);
+        validateArguments(destinationRequest, coverPhoto, mapPhoto);
 
-        for (DestinationActivity activity : destination.getDestinationActivities()) {
-            activity.setDestination(destination);
-        }
-
-        Destination savedDestination = destinationRepository.save(destination);
+        Destination savedDestination = destinationRepository.save(destinationMapper.toDestination(destinationRequest));
 
         addPhotos(savedDestination, coverPhoto, mapPhoto);
 
-        return savedDestination;
+        return destinationMapper.toDestinationResponse(savedDestination);
     }
 
-    public Destination updateDestination(int id, Destination updatedDestination, MultipartFile coverPhoto, MultipartFile mapPhoto) {
+    public DestinationResponse updateDestination(int id, Destination updatedDestination, MultipartFile coverPhoto, MultipartFile mapPhoto) {
 
         if(updatedDestination == null) {
             throw new IllegalArgumentException("Destination can not be null");
@@ -76,13 +72,8 @@ public class DestinationService {
         if(updatedDestination.getCoverPhoto() != null && mapPhoto != null) {
             addPhotos(destination, coverPhoto, mapPhoto);
         }
-        if(updatedDestination.getDestinationActivities() != null){
-            destination.setDestinationActivities(updatedDestination.getDestinationActivities());
-            for (DestinationActivity activity : updatedDestination.getDestinationActivities()) {
-                activity.setDestination(destination);
-            }
-        }
-        return destinationRepository.save(destination);
+
+        return destinationMapper.toDestinationResponse(destinationRepository.save(destination));
     }
 
     public void deleteDestination(int id) throws IOException {
@@ -123,8 +114,8 @@ public class DestinationService {
         }
     }
 
-    private void validateArguments(Destination destination, MultipartFile coverPhoto, MultipartFile mapPhoto) {
-        if (destination == null) {
+    private void validateArguments(DestinationRequest destinationRequest, MultipartFile coverPhoto, MultipartFile mapPhoto) {
+        if (destinationRequest == null) {
             throw new IllegalArgumentException("Destination can not be null");
         }
 
