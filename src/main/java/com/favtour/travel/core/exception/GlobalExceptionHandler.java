@@ -1,5 +1,6 @@
 package com.favtour.travel.core.exception;
 
+import com.favtour.travel.booking.exception.CancelBookingException;
 import com.favtour.travel.core.payload.ApiResponse;
 import com.favtour.travel.shared.FileStorageException;
 import com.favtour.travel.user.exception.DuplicateEmailException;
@@ -51,6 +52,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(FileStorageException.class)
     public ResponseEntity<ApiResponse<Void>> handleIOException(FileStorageException exc){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiResponse<>(false, exc.getMessage(), null));
+    }
+
+    @ExceptionHandler(CancelBookingException.class)
+    public ResponseEntity<ApiResponse<Void>> handleCancelBookingException(CancelBookingException exc){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiResponse<>(false, exc.getMessage(), null));
     }
 }

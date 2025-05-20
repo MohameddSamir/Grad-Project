@@ -5,7 +5,6 @@ import com.favtour.travel.destination.entity.Destination;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

@@ -1,8 +1,11 @@
 package com.favtour.travel.user.entity;
 
+import com.favtour.travel.booking.entity.TripBooking;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,4 +23,7 @@ public class Users {
     @OneToOne(targetEntity = UsersProfile.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_profile")
     private UsersProfile profile;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<TripBooking> tripBookingList;
 }
