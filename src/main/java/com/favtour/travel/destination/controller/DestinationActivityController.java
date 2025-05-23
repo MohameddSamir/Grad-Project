@@ -28,6 +28,17 @@ public class DestinationActivityController {
                         destinationActivityService.saveDestinationActivity(destinationId, destinationActivity, coverPhoto)));
     }
 
+    @PutMapping("/{activityId}")
+    public ResponseEntity<ApiResponse<DestinationActivity>> updateDestinationActivity(@PathVariable int destinationId,
+                                                                                      @PathVariable int activityId,
+                                                                                      @RequestPart(required = false) DestinationActivity destinationActivity,
+                                                                                      @RequestPart(name = "cover_photo", required = false) MultipartFile coverPhoto) {
+
+        return ResponseEntity.ok
+                (new ApiResponse<>(true, "Destination Activity has been updated successfully",
+                        destinationActivityService.updateDestinationActivity(destinationId, activityId, destinationActivity, coverPhoto)));
+    }
+
     @DeleteMapping("/{activityId}")
     public ResponseEntity<ApiResponse<Void>> deleteDestinationActivity(@PathVariable("destinationId") int destinationId,
                                                                        @PathVariable int activityId) throws IOException {

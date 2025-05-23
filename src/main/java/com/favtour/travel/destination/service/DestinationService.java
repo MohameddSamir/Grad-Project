@@ -1,10 +1,7 @@
 package com.favtour.travel.destination.service;
 
 import com.favtour.travel.core.util.FileStorageService;
-import com.favtour.travel.destination.dto.DestinationCardDto;
-import com.favtour.travel.destination.dto.DestinationRequest;
-import com.favtour.travel.destination.dto.DestinationResponse;
-import com.favtour.travel.destination.dto.DestinationWithTrips;
+import com.favtour.travel.destination.dto.*;
 import com.favtour.travel.destination.entity.Destination;
 import com.favtour.travel.destination.mapper.DestinationMapper;
 import com.favtour.travel.destination.repository.DestinationRepository;
@@ -48,6 +45,11 @@ public class DestinationService {
         return new DestinationWithTrips(destination.getDestinationId(), destination.getDestinationName(), destination.getCoverPhoto(), destination.getTrips());
     }
 
+    public DestinationWithActivities getDestinationWithActivities(int id) {
+        Destination destination = getDestinationById(id);
+        return destinationMapper.toDestinationWithActivities(destination);
+    }
+
     @Transactional
     public DestinationResponse createDestination(DestinationRequest destinationRequest, MultipartFile coverPhoto, MultipartFile mapPhoto) {
 
@@ -62,14 +64,13 @@ public class DestinationService {
 
     public DestinationResponse updateDestination(int id, Destination updatedDestination, MultipartFile coverPhoto, MultipartFile mapPhoto) {
 
-        if(updatedDestination == null) {
-            throw new IllegalArgumentException("Destination can not be null");
-        }
-
         Destination destination = getDestinationById(id);
 
-        validateFields(destination, updatedDestination);
-        if(updatedDestination.getCoverPhoto() != null && mapPhoto != null) {
+        if(updatedDestination != null) {
+            validateFields(destination, updatedDestination);
+        }
+
+        if(coverPhoto != null && mapPhoto != null) {
             addPhotos(destination, coverPhoto, mapPhoto);
         }
 

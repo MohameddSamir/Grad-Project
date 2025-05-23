@@ -34,7 +34,7 @@ public class TripService {
         return tripRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Trip not found with id " + id));
     }
 
-    public List<TripResponse> getAllTours(){
+    public List<TripResponse> getAllTrips(){
         return tripRepository.findAll().stream().map(tripMapper ::mapTripToTripResponse).collect(Collectors.toList());
     }
 
@@ -82,15 +82,20 @@ public class TripService {
                                        MultipartFile[] newImages){
         Trip trip = findByIdOrThrow(id);
 
-        validateFields(trip, updatedTripRequest);
+        if(updatedTripRequest != null){
+
+            validateFields(trip, updatedTripRequest);
+
+            if(updatedTripRequest.getInclusions() != null){
+                addInclusions(trip, updatedTripRequest.getInclusions());
+            }
+        }
 
         if(coverImage != null){
             addCoverImage(trip, coverImage);
         }
 
-        if(updatedTripRequest.getInclusions() != null){
-            addInclusions(trip, updatedTripRequest.getInclusions());
-        }
+
 
         if(newImages != null){
             addImages(trip, newImages);

@@ -38,6 +38,24 @@ public class DestinationActivityService {
         return savedDestinationActivity;
     }
 
+    public DestinationActivity updateDestinationActivity(int destinationId, int activityId, DestinationActivity updatedDestinationActivity, MultipartFile coverPhoto) {
+
+        Destination destination= destinationService.getDestinationById(destinationId);
+        DestinationActivity destinationActivity= destinationActivityRepository.findById(activityId).orElseThrow(()->
+                new EntityNotFoundException("Destination Activity not found"));
+
+
+        if(updatedDestinationActivity != null){
+            validateFields(destinationActivity, updatedDestinationActivity);
+        }
+
+        if(coverPhoto != null){
+            addCoverPhoto(destinationActivity, coverPhoto);
+        }
+
+        return destinationActivityRepository.save(destinationActivity);
+    }
+
     public void deleteDestinationActivity(int destinationId, int activityId) throws IOException {
 
         Destination destination= destinationService.getDestinationById(destinationId);
@@ -60,6 +78,15 @@ public class DestinationActivityService {
             fileStorageService.saveImage(coverPhoto, uploadDirectory, coverPhotoName);
         }catch (IOException exc){
             throw new FileStorageException("can't save cover photo");
+        }
+    }
+
+    private void validateFields(DestinationActivity destinationActivity, DestinationActivity updatedDestinationActivity) {
+        if(updatedDestinationActivity.getActivityName() != null){
+            destinationActivity.setActivityName(updatedDestinationActivity.getActivityName());
+        }
+        if(updatedDestinationActivity.getActivityDescription() != null){
+            destinationActivity.setActivityDescription(updatedDestinationActivity.getActivityDescription());
         }
     }
 }

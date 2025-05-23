@@ -1,10 +1,7 @@
 package com.favtour.travel.destination.controller;
 
 import com.favtour.travel.core.payload.ApiResponse;
-import com.favtour.travel.destination.dto.DestinationCardDto;
-import com.favtour.travel.destination.dto.DestinationRequest;
-import com.favtour.travel.destination.dto.DestinationResponse;
-import com.favtour.travel.destination.dto.DestinationWithTrips;
+import com.favtour.travel.destination.dto.*;
 import com.favtour.travel.destination.entity.Destination;
 import com.favtour.travel.destination.service.DestinationService;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +26,9 @@ public class DestinationController {
     }
 
     @GetMapping("/guide/{id}")
-    public ResponseEntity<ApiResponse<Destination>> getDestinationById(@PathVariable int id) {
+    public ResponseEntity<ApiResponse<DestinationWithActivities>> getDestinationById(@PathVariable int id) {
         return ResponseEntity.ok
-                (new ApiResponse<>(true, "Destination found", destinationService.getDestinationById(id)));
+                (new ApiResponse<>(true, "Destination found", destinationService.getDestinationWithActivities(id)));
     }
 
     @GetMapping("/{id}")
@@ -52,7 +49,7 @@ public class DestinationController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<DestinationResponse>> updateDestination(@PathVariable int id,
-                                                                      @RequestPart Destination destination,
+                                                                      @RequestPart(required = false) Destination destination,
                                                                       @RequestPart(name = "cover_photo", required = false) MultipartFile coverPhoto,
                                                                       @RequestPart(name = "map_photo", required = false) MultipartFile mapPhoto) {
 

@@ -22,7 +22,7 @@ public class TripController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<TripResponse>>> trips(){
         return ResponseEntity.ok
-                (new ApiResponse<>(true, "All trips are ready", tripService.getAllTours()));
+                (new ApiResponse<>(true, "All trips are ready", tripService.getAllTrips()));
     }
 
     @GetMapping("/{id}")
@@ -43,7 +43,7 @@ public class TripController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<TripResponse>> updateTrip(@PathVariable int id,
-                                                                @RequestPart TripRequest tripRequest,
+                                                                @RequestPart(required = false) TripRequest tripRequest,
                                                                 @RequestPart(required = false) MultipartFile coverImage,
                                                                 @RequestPart(value = "images", required = false) MultipartFile[] newImages){
 
