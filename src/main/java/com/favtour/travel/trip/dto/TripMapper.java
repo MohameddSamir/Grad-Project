@@ -44,6 +44,7 @@ public class TripMapper {
                 .description(trip.getDescription())
                 .inclusions(trip.getInclusions())
                 .meetingPoint(trip.getMeetingPoint())
+                .cancellationPolicy(trip.getCancellationPolicy())
                 .tripImages(trip.getTripImages().stream().map(TripImages::getImageUrl).toList())
                 .build();
     }

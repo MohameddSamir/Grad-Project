@@ -51,10 +51,12 @@ public class TripBookingService {
         return tripBookingMapper.toTripBookingResponse(tripBookingRepository.save(tripBooking));
     }
 
-    public List<TripBookingCard> getUserBookings(int userId) {
+    public List<TripBookingCard> getUserBookings() {
 
-        Users users= usersRepository.findById(userId).orElseThrow(()->
-                new EntityNotFoundException("User not found"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        Users users= usersRepository.findByEmail(username).orElseThrow(()->new EntityNotFoundException("User not found"));
 
         List<TripBooking> tripBookingList= users.getTripBookingList();
         List<TripBookingCard> tripBookingCardList = new ArrayList<>();

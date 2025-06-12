@@ -27,10 +27,10 @@ public class TripBookingController {
                 (new ApiResponse<>(true, "Booking request is ready", tripBookingService.saveBooking(tripId, tripBooking)));
     }
 
-    @GetMapping("/{userId}/bookings")
-    public ResponseEntity<ApiResponse<List<TripBookingCard>>> getBookings(@PathVariable int userId){
+    @GetMapping("/user/bookings")
+    public ResponseEntity<ApiResponse<List<TripBookingCard>>> getBookings(){
         return ResponseEntity.ok
-                (new ApiResponse<>(true, "Your bookings are ready", tripBookingService.getUserBookings(userId)));
+                (new ApiResponse<>(true, "Your bookings are ready", tripBookingService.getUserBookings()));
     }
 
     @GetMapping("/bookings/{bookingId}/booking-info")
