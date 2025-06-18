@@ -5,7 +5,8 @@ import com.favtour.travel.destination.service.DestinationService;
 import com.favtour.travel.shared.EntityNotFoundException;
 import com.favtour.travel.shared.FileStorageException;
 import com.favtour.travel.trip.dto.TripRequest;
-import com.favtour.travel.trip.dto.TripMapper;
+import com.favtour.travel.trip.entity.Category;
+import com.favtour.travel.trip.mapper.TripMapper;
 import com.favtour.travel.trip.dto.TripResponse;
 import com.favtour.travel.trip.entity.Inclusion;
 import com.favtour.travel.trip.entity.Trip;
@@ -29,6 +30,7 @@ public class TripService {
     private final FileStorageService fileStorageService;
     private final TripMapper tripMapper;
     private final DestinationService destinationService;
+    private final CategoryService categoryService;
 
     private Trip findByIdOrThrow(int id){
         return tripRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Trip not found with id " + id));
@@ -41,8 +43,6 @@ public class TripService {
     public TripResponse getTripById(int id){
         return tripMapper.mapTripToTripResponse(findByIdOrThrow(id));
     }
-
-
 
     @Transactional
     public TripResponse createTrip(TripRequest tripRequest, MultipartFile coverImage , MultipartFile[] images) {
@@ -95,8 +95,6 @@ public class TripService {
             addCoverImage(trip, coverImage);
         }
 
-
-
         if(newImages != null){
             addImages(trip, newImages);
         }
@@ -108,6 +106,24 @@ public class TripService {
         Trip deleteTrip = findByIdOrThrow(id);
         fileStorageService.deleteImagesWithDirectory("photos/trip/"+id);
         tripRepository.delete(deleteTrip);
+    }
+
+    public void assignTripToCategory(int tripId, int categoryId){
+
+        Trip trip = findByIdOrThrow(tripId);
+
+        Category category = categoryService.findByIdOrThrow(categoryId);
+
+        if(trip.getCategories() == null || trip.getCategories().isEmpty()){
+            trip.setCategories(new ArrayList<>());
+        }
+
+        if(trip.getCategories().contains(category)){
+            throw new IllegalArgumentException("Trip has been already assigned to this Category");
+        }
+
+        trip.getCategories().add(category);
+        tripRepository.save(trip);
     }
 
     private void addCoverImage(Trip trip, MultipartFile coverImage) {

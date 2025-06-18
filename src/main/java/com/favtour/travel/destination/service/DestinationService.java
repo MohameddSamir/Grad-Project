@@ -7,6 +7,8 @@ import com.favtour.travel.destination.mapper.DestinationMapper;
 import com.favtour.travel.destination.repository.DestinationRepository;
 import com.favtour.travel.shared.EntityNotFoundException;
 import com.favtour.travel.shared.FileStorageException;
+import com.favtour.travel.trip.entity.Trip;
+import com.favtour.travel.trip.repository.TripRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class DestinationService {
     private final DestinationRepository destinationRepository;
     private final FileStorageService fileStorageService;
     private final DestinationMapper destinationMapper;
-
+    private final TripRepository tripRepository;
 
     public List<DestinationCardDto> getAllDestinationCards() {
         return destinationRepository.findAll().stream().map(destination ->
@@ -40,9 +42,35 @@ public class DestinationService {
                 new EntityNotFoundException("Destination not found with name " + name));
     }
 
-    public DestinationWithTrips getDestinationWithTrips(int id) {
+    public DestinationWithTrips getDestinationWithTrips(int id, List<String> categories, Integer duration, String search) {
         Destination destination = getDestinationById(id);
-        return new DestinationWithTrips(destination.getDestinationId(), destination.getDestinationName(), destination.getCoverPhoto(), destination.getTrips());
+        List<Trip> trips;
+
+        boolean hasSearch = search != null && !search.isEmpty();
+        boolean hasCategories = categories != null && !categories.isEmpty();
+        boolean hasDuration= duration != null;
+
+        if(hasSearch && hasCategories&& hasDuration) {
+            trips= tripRepository.findByCategoriesDurationAndSearch(categories, duration, search, id);
+        } else if(hasSearch && hasCategories) {
+            trips= tripRepository.findByCategoriesAndSearch(categories, search, id);
+        } else if(hasSearch && hasDuration) {
+            trips= tripRepository.findBySearchAndDuration(search, duration, id);
+        } else if (hasCategories && hasDuration) {
+            trips=tripRepository.findByCategoriesAndDuration(categories, duration, id);
+        } else if (hasSearch) {
+            trips= tripRepository.findByLabelContainingIgnoreCase(search)
+                    .stream()
+                    .filter(t->t.getDestination().getDestinationId() == id)
+                    .toList();
+        }else if(hasCategories) {
+            trips= tripRepository.findByCategories(categories, id);
+        }else if(hasDuration) {
+            trips= tripRepository.findByDurationLessThan(duration);
+        }else {
+            trips= destination.getTrips();
+        }
+        return new DestinationWithTrips(destination.getDestinationId(), destination.getDestinationName(), destination.getCoverPhoto(), trips);
     }
 
     public DestinationWithActivities getDestinationWithActivities(int id) {

@@ -28,7 +28,7 @@ public class Trip {
     private Destination destination;
 
     private String run;
-    private String duration;
+    private Integer duration;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "trip_type")
@@ -47,6 +47,15 @@ public class Trip {
 
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<Inclusion> inclusions;
+
+    @ManyToMany
+    @JoinTable(
+            name = "trip_category",
+            joinColumns = @JoinColumn(name = "trip_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    @JsonIgnore
+    private List<Category> categories;
 
     public void addTripImage(TripImages tripImage){
         tripImage.setTrip(this);

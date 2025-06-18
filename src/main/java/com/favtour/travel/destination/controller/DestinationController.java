@@ -32,9 +32,12 @@ public class DestinationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<DestinationWithTrips>> getDestinationWithTrips(@PathVariable int id) {
+    public ResponseEntity<ApiResponse<DestinationWithTrips>> getDestinationWithTrips(@PathVariable int id,
+                                                                                     @RequestParam(value = "category", required = false) List<String> categories,
+                                                                                     @RequestParam(value = "duration", required = false) Integer duration,
+                                                                                     @RequestParam(value = "search", required = false) String search) {
         return ResponseEntity.ok
-                (new ApiResponse<>(true, "Destination found", destinationService.getDestinationWithTrips(id)));
+                (new ApiResponse<>(true, "Destination found", destinationService.getDestinationWithTrips(id, categories, duration, search)));
     }
 
     @PostMapping

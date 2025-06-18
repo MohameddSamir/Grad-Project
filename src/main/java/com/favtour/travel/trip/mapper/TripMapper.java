@@ -1,6 +1,8 @@
-package com.favtour.travel.trip.dto;
+package com.favtour.travel.trip.mapper;
 
 import com.favtour.travel.destination.service.DestinationService;
+import com.favtour.travel.trip.dto.TripRequest;
+import com.favtour.travel.trip.dto.TripResponse;
 import com.favtour.travel.trip.entity.Trip;
 import com.favtour.travel.trip.entity.TripImages;
 import lombok.RequiredArgsConstructor;

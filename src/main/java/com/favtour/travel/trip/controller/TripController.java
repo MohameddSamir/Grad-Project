@@ -58,4 +58,13 @@ public class TripController {
         return ResponseEntity.ok
                 (new ApiResponse<>(true, "Trip of id " + id + " has been deleted successfully",  null));
     }
+
+    // assign the trip to a category
+    @PostMapping("/{tripId}/categories/{categoryId}")
+    public ResponseEntity<ApiResponse<Void>> assignToCategory(@PathVariable int tripId, @PathVariable int categoryId) {
+        tripService.assignTripToCategory(tripId, categoryId);
+        return ResponseEntity.ok
+                (new ApiResponse<>(true, "Trip has been assigned to category successfully",null));
+    }
+
 }

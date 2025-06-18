@@ -18,7 +18,7 @@ public class TripResponse {
     private String coverImage;
     private String destination;
     private String run;
-    private String duration;
+    private Integer duration;
     private TripType tripType;
     private int price;
     private String itinerary;

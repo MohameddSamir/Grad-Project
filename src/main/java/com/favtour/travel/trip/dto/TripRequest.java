@@ -14,7 +14,7 @@ public class TripRequest {
     private String label;
     private String destination;
     private String run;
-    private String duration;
+    private Integer duration;
     private TripType tripType;
     private int price;
     private String itinerary;
