@@ -41,9 +41,9 @@ public class TripBookingController {
 
     // we will enable true paying later
     @PutMapping("/bookings/{bookingId}/pay")
-    public ResponseEntity<ApiResponse<BookingActionResponse>> pay(@PathVariable int bookingId){
+    public ResponseEntity<ApiResponse<BookingActionResponse>> ConfirmBooking(@PathVariable int bookingId){
         return ResponseEntity.ok
-                (new ApiResponse<>(true, "You have paid successfully", tripBookingService.pay(bookingId)));
+                (new ApiResponse<>(true, "You have paid successfully", tripBookingService.confirmBookingAfterPayment(bookingId)));
     }
 
     @PutMapping("/bookings/{bookingId}/cancel")

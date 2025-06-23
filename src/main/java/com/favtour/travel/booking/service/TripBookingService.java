@@ -76,7 +76,7 @@ public class TripBookingService {
         return tripBookingMapper.toTripBookingResponse(tripBooking);
     }
 
-    public BookingActionResponse pay(int bookingId) {
+    public BookingActionResponse confirmBookingAfterPayment(int bookingId) {
 
         TripBooking tripBooking= tripBookingRepository.findById(bookingId).orElseThrow(()->
                 new EntityNotFoundException("Booking not found"));
