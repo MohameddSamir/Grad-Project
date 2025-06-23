@@ -39,7 +39,6 @@ public class TripBookingController {
                 (new ApiResponse<>(true, "Booking info are ready", tripBookingService.getTripBooking(bookingId)));
     }
 
-    // we will enable true paying later
     @PutMapping("/bookings/{bookingId}/pay")
     public ResponseEntity<ApiResponse<BookingActionResponse>> ConfirmBooking(@PathVariable int bookingId){
         return ResponseEntity.ok
