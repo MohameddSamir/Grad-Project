@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,10 +36,10 @@ public class HotelController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<List<HotelCard>>> searchHotel(@RequestParam String name,
-                                                                    @RequestParam String destination,
-                                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-                                                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+    public ResponseEntity<ApiResponse<List<HotelCard>>> searchHotel(@RequestParam(value = "name", required = false) String name,
+                                                                    @RequestParam(value = "destination", required = false) String destination,
+                                                                    @RequestParam(value = "from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+                                                                    @RequestParam(value = "to", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
         return ResponseEntity.ok
                 (new ApiResponse<>(true, "Hotels are found", hotelService.findHotels(name, destination, from, to)));
     }
