@@ -39,7 +39,7 @@ public class TripBookingController {
                 (new ApiResponse<>(true, "Booking info are ready", tripBookingService.getTripBooking(bookingId)));
     }
 
-    @PutMapping("/bookings/{bookingId}/pay")
+    @PutMapping("/bookings/{bookingId}/confirm")
     public ResponseEntity<ApiResponse<BookingActionResponse>> ConfirmBooking(@PathVariable int bookingId){
         return ResponseEntity.ok
                 (new ApiResponse<>(true, "You have paid successfully", tripBookingService.confirmBookingAfterPayment(bookingId)));
