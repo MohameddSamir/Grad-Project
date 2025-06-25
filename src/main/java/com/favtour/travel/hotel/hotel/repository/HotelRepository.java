@@ -38,7 +38,7 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
             "AND r.available_from <= :from " +
             "AND r.available_to >= :to"
             , nativeQuery = true)
-    List<Hotel> findByDestinationAndAvailableFromTo(@Param("destination") String destination,
+    List<Hotel> findByDestinationAndAvailableFromTo(@Param("destinationName") String destinationName,
                                                     @Param("from") LocalDate from,
                                                     @Param("to") LocalDate to);
 
