@@ -15,10 +15,10 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    @PostMapping("/checkout/{bookingId}")
-    public ResponseEntity<ApiResponse<Map<String, String>>> checkout(@PathVariable int bookingId) {
+    @PostMapping("/checkout/{orderId}")
+    public ResponseEntity<ApiResponse<Map<String, String>>> checkout(@PathVariable int orderId) {
         return ResponseEntity.ok
-                (new ApiResponse<>(true, "Payment Url is ready", Map.of("url",paymentService.createCheckoutSession(bookingId))));
+                (new ApiResponse<>(true, "Payment Url is ready", Map.of("url",paymentService.createCheckoutSession(orderId))));
     }
 
 }

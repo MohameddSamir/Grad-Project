@@ -1,8 +1,8 @@
 package com.favtour.travel.payment.service;
 
-import com.favtour.travel.booking.entity.BookingStatus;
-import com.favtour.travel.booking.entity.TripBooking;
-import com.favtour.travel.booking.repository.TripBookingRepository;
+import com.favtour.travel.order.entity.Order;
+import com.favtour.travel.order.entity.OrderStatus;
+import com.favtour.travel.order.repository.OrderRepository;
 import com.favtour.travel.shared.EntityNotFoundException;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PaymentService {
 
-    private final TripBookingRepository tripBookingRepository;
+    private final OrderRepository orderRepository;
 
     @Value("${payment.secret_key}")
     private String paymentSecretKey;
@@ -27,20 +27,19 @@ public class PaymentService {
         Stripe.apiKey = paymentSecretKey;
     }
 
-    public String createCheckoutSession(int bookingId){
+    public String createCheckoutSession(int orderId){
 
-        TripBooking tripBooking= tripBookingRepository.findById(bookingId)
-                .orElseThrow(() ->new EntityNotFoundException("Trip Booking not found"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException("Order not found"));
 
-        if(tripBooking.getBookingStatus() == BookingStatus.APPROVED){
+        if(order.getOrderStatus() == OrderStatus.APPROVED){
             throw new IllegalArgumentException("Booking is already approved");
         }
 
-        long amount= (long) tripBooking.getTotalPrice() *100;
+        long amount= (long) order.getTotalPrice() *100;
 
         SessionCreateParams.LineItem.PriceData.ProductData productData=
                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                        .setName(tripBooking.getTrip().getLabel())
+                        .setName(order.getOrderName())
                         .build();
 
         SessionCreateParams.LineItem.PriceData priceData=

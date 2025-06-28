@@ -1,6 +1,6 @@
 package com.favtour.travel.user.entity;
 
-import com.favtour.travel.booking.entity.TripBooking;
+import com.favtour.travel.order.entity.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +25,5 @@ public class Users {
     private UsersProfile profile;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<TripBooking> tripBookingList;
+    private List<Order> orders;
 }

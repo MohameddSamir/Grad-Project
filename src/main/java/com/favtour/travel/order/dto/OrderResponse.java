@@ -1,36 +1,37 @@
-package com.favtour.travel.booking.dto;
+package com.favtour.travel.order.dto;
 
-import com.favtour.travel.booking.entity.BookingStatus;
+import com.favtour.travel.order.entity.OrderStatus;
+import com.favtour.travel.order.entity.OrderType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Setter
 @Getter
 @Builder
-public class TripBookingResponse {
+public class OrderResponse {
 
-    private int bookingId;
+    private int orderId;
     private int userId;
-    private int tripId;
 
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String nationality;
-    private String hotelName;
     private String guideLanguage;
     private String specialRequirements;
-
-    private LocalDateTime createdAt;
-    private LocalDate bookingDate;
     private int numberOfAdults;
     private int numberOfChildren;
     private int totalPrice;
-    private BookingStatus bookingStatus;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+
+    private String orderName;
+    private OrderType orderType;
+    private OrderStatus orderStatus;
+    private String orderCoverPhoto;
+    private int referenceEntityId;
+
 }

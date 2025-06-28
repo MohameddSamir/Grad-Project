@@ -3,7 +3,6 @@ package com.favtour.travel.core.security.config;
 import com.favtour.travel.core.security.auth.jwt.JwtAuthenticationFilter;
 import com.favtour.travel.core.security.auth.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.file.ConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

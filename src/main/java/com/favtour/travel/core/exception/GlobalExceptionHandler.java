@@ -1,7 +1,7 @@
 package com.favtour.travel.core.exception;
 
-import com.favtour.travel.booking.exception.CancelBookingException;
 import com.favtour.travel.core.payload.ApiResponse;
+import com.favtour.travel.order.exception.CancelOrderException;
 import com.favtour.travel.shared.FileStorageException;
 import com.favtour.travel.user.exception.DuplicateEmailException;
 import com.favtour.travel.shared.EntityNotFoundException;
@@ -55,8 +55,8 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse<>(false, exc.getMessage(), null));
     }
 
-    @ExceptionHandler(CancelBookingException.class)
-    public ResponseEntity<ApiResponse<Void>> handleCancelBookingException(CancelBookingException exc){
+    @ExceptionHandler(CancelOrderException.class)
+    public ResponseEntity<ApiResponse<Void>> handleCancelBookingException(CancelOrderException exc){
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ApiResponse<>(false, exc.getMessage(), null));
     }
