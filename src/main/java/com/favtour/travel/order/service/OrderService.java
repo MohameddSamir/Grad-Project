@@ -76,6 +76,7 @@ public class OrderService {
         order.setOrderStatus(OrderStatus.PENDING);
         order.setOrderCoverPhoto(room.getHotel().getCoverPhoto());
         order.setReferenceEntityId(roomId);
+        order.setHotelId(room.getHotel().getId());
         order.setTotalPrice((int) (room.getPrice()* orderRequest.getNumberOfAdults()+
                         room.getPrice()* order.getNumberOfChildren()/2));
 

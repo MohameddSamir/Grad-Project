@@ -36,6 +36,8 @@ public class Order {
 
     private int referenceEntityId;
 
+    private int hotelId;
+
     private String firstName;
     private String lastName;
     private String email;

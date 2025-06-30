@@ -34,4 +34,5 @@ public class OrderResponse {
     private String orderCoverPhoto;
     private int referenceEntityId;
 
+    private int hotelId;
 }
