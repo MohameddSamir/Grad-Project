@@ -52,12 +52,6 @@ public class OrderController {
                 (new ApiResponse<>(true, "Cruise order has been created successfully", orderService.createNileCruiseOrder(cruiseId, orderRequest)));
     }
 
-    @PutMapping("/orders/{orderId}/confirm")
-    public ResponseEntity<ApiResponse<OrderResponse>> confirmOrder(@PathVariable int orderId) {
-        return ResponseEntity.ok
-                (new ApiResponse<>(true, "You have paid successfully", orderService.confirmOrderAfterPayment(orderId)));
-    }
-
     @PutMapping("/orders/{orderId}/cancel")
     public ResponseEntity<ApiResponse<OrderResponse>> cancelOrder(@PathVariable int orderId) {
         return ResponseEntity.ok

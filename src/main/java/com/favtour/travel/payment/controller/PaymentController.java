@@ -21,4 +21,11 @@ public class PaymentController {
                 (new ApiResponse<>(true, "Payment Url is ready", Map.of("url",paymentService.createCheckoutSession(orderId))));
     }
 
+    @GetMapping("/success")
+    public ResponseEntity<String> handleSuccess(@RequestParam("session_id") String sessionId) {
+        paymentService.handlePaymentSuccess(sessionId);
+        return ResponseEntity.ok("Payment successful and order updated!");
+    }
+
+
 }

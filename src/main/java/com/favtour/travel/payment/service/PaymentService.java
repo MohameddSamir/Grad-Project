@@ -58,9 +58,10 @@ public class PaymentService {
         SessionCreateParams params=
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl("http://localhost:8080/success")
-                        .setCancelUrl("http://localhost:8080/cancel")
+                        .setSuccessUrl("http://localhost:8080/favtour/payment/success?session_id={CHECKOUT_SESSION_ID}")
+                        .setCancelUrl("http://localhost:8080/favtour/payment/failed")
                         .addLineItem(lineItem)
+                        .putMetadata("orderId", String.valueOf(orderId))
                         .build();
         try {
             Session session=Session.create(params);
@@ -69,4 +70,24 @@ public class PaymentService {
             throw new RuntimeException("Error creating session", e);
         }
     }
+
+    public void handlePaymentSuccess(String sessionId) {
+        try {
+            Session session = Session.retrieve(sessionId);
+            if ("complete".equals(session.getStatus()) && "paid".equals(session.getPaymentStatus())) {
+                int orderId = Integer.parseInt(session.getMetadata().get("orderId"));
+
+                Order order = orderRepository.findById(orderId)
+                        .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+
+                order.setOrderStatus(OrderStatus.APPROVED);
+                orderRepository.save(order);
+            } else {
+                throw new IllegalStateException("Payment not completed or unsuccessful.");
+            }
+        } catch (StripeException e) {
+            throw new RuntimeException("Error verifying payment", e);
+        }
+    }
+
 }

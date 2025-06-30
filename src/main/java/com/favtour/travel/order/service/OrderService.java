@@ -100,17 +100,6 @@ public class OrderService {
         return orderMapper.mapToOrderResponse(orderRepository.save(order));
     }
 
-    public OrderResponse confirmOrderAfterPayment(int orderId) {
-
-        Order order= orderRepository.findById(orderId).orElseThrow(()-> new EntityNotFoundException("Order not found"));
-
-        if(order.getOrderStatus() == OrderStatus.PENDING) {
-            order.setOrderStatus(OrderStatus.APPROVED);
-        }
-
-        return orderMapper.mapToOrderResponse(orderRepository.save(order));
-    }
-
     public OrderResponse cancelOrder(int orderId) {
 
         Order order= orderRepository.findById(orderId).orElseThrow(()-> new EntityNotFoundException("Order not found"));
