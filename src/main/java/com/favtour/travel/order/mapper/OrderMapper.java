@@ -49,6 +49,7 @@ public class OrderMapper {
                 .orderCoverPhoto(order.getOrderCoverPhoto())
                 .orderStatus(order.getOrderStatus())
                 .referenceEntityId(order.getReferenceEntityId())
+                .hotelId(order.getHotelId())
                 .build();
     }
 }

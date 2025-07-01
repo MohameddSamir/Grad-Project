@@ -1,5 +1,6 @@
 package com.favtour.travel.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.favtour.travel.order.entity.OrderStatus;
 import com.favtour.travel.order.entity.OrderType;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderResponse {
 
     private int orderId;
@@ -34,5 +36,5 @@ public class OrderResponse {
     private String orderCoverPhoto;
     private int referenceEntityId;
 
-    private int hotelId;
+    private Integer hotelId;
 }
